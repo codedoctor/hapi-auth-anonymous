@@ -1,0 +1,53 @@
+{
+  "name": "hapi-auth-anonymous",
+  "version": "1.0.0",
+  "private": false,
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codedoctor/hapi-auth-anonymous.git"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/grunt testandcoverage"
+  },
+  "description": "Plugin that supports bearer token security using our idenity store.",
+  "dependencies": {
+    "hoek": ">=2.4.1",
+    "boom": ">=2.5.1",
+    "underscore": ">=1.7.0"
+  },
+  "peerDependencies": {
+    "hapi": ">=6.5.0"
+  },
+  "devDependencies": {
+    "async": "0.9.0",
+    "blanket": "1.1.6",
+    "codo": "2.0.9",
+    "coffee-script": "1.7.1",
+    "grunt": "0.4.5",
+    "grunt-cli": "0.1.13",
+    "grunt-contrib-coffee": "0.11.0",
+    "grunt-contrib-watch": "0.6.1",
+    "grunt-codo": "0.2.0",
+    "grunt-env": "0.4.1",
+    "grunt-mocha-cov": "0.3.0",
+    "grunt-mocha-test": "0.11.0",
+    "grunt-release": "0.7.0",
+    "grunt-shell": "0.7.0",
+    "hapi": "6.5.1",
+    "hapi-user-store-multi-tenant": "1.0.x",
+    "hapi-oauth-store-multi-tenant": "1.0.x",
+    "matchdep": "0.3.0",
+    "mocha": "1.21.4",
+    "mongoose": "3.8.14",
+    "should": "4.0.4"
+  },
+  "config": {
+    "blanket": {
+      "pattern": [
+        "lib"
+      ],
+      "data-cover-never": "node_modules"
+    }
+  }
+}

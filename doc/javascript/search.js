@@ -1,0 +1,1 @@
+window.searchData = [{"t":"src/index.coffee","p":"file/src/index.coffee.html"},{"t":"README.md","p":"extra/README.md.html"},{"t":"src/index.coffee~internals","p":"file/src/index.coffee.html#internals-"},{"t":"src/index.coffee~internals","p":"file/src/index.coffee.html#internals-"},{"t":"src/index.coffee~register","p":"file/src/index.coffee.html#register-"}]
