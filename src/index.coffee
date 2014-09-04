@@ -6,7 +6,7 @@ internals = {}
 
 module.exports.register = (plugin, options = {}, cb) ->
 
-  options = Hoek.applyToDefaults {clientId: null,_tenantId:null, scope: ['anonymous-access']} , options
+  options = Hoek.applyToDefaults {clientId: null,_tenantId:null, scope: ['user-anonymous-access']} , options
 
   internals.clientId = options.clientId
   internals._tenantId = options._tenantId

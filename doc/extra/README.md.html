@@ -76,6 +76,7 @@ pluginConf = [
     options:
       clientId: &#39;53af466e96ab7635384b71fa&#39;
       _tenantId: &#39;53af466e96ab7635384b71fb&#39;
+      scope: [&#39;user-anonymous-access&#39;] # This is optional and represents the default
   ,
     plugin: hapiMongooseDbConnector
     options:
@@ -96,7 +97,7 @@ module.exports = server
 <h2 id="plugin-options">Plugin Options</h2>
 <h3 id="clientid">clientId</h3><p>The client id used to identity the oauth app. In a usual setup you create one app when initializing your database for the first time and use that client id. Take a look at 
 the <a href="https://github.com/codedoctor/hapi-routes-tenants-setup">hapi-routes-tenants-setup</a>
- plugin that exposes a setup route.</p><h3 id="_tenantid">_tenantId</h3><p>An id that specifies which tenant in the identity store backend should be used. In most scenarios this will be a hardcoded (well, taken from the config) value. It must be a mongodb compatible object id (see example above).</p><h3 id="scope">scope</h3><p>The scope that will be assigned to the credentials upon login. This defaults to [&#39;anonymous-access&#39;] and can be either a string or an array. To assign no scope, pass an empty array.</p><p>The scope allows you to limit access or functionality in your routes. For example, a route that returns data can only return a subset for users in scope anonymous-access</p><h2 id="see-also">See also</h2>
+ plugin that exposes a setup route.</p><h3 id="_tenantid">_tenantId</h3><p>An id that specifies which tenant in the identity store backend should be used. In most scenarios this will be a hardcoded (well, taken from the config) value. It must be a mongodb compatible object id (see example above).</p><h3 id="scope">scope</h3><p>The scope that will be assigned to the credentials upon login. This defaults to [&#39;user-anonymous-access&#39;] and can be either a string or an array. To assign no scope, pass an empty array.</p><p>The scope allows you to limit access or functionality in your routes. For example, a route that returns data can only return a subset for users in scope anonymous-access</p><h2 id="see-also">See also</h2>
 <ul>
 <li><a href="https://github.com/codedoctor/hapi-auth-bearer-mw">hapi-auth-bearer-mw</a></li>
 <li><a href="https://github.com/codedoctor/hapi-auth-anonymous">hapi-auth-anonymous</a></li>
@@ -132,7 +133,7 @@ the <a href="https://github.com/codedoctor/hapi-routes-tenants-setup">hapi-route
       </div>
     </div>
     <div id='footer'>
-  September 04, 14 10:10:11 by
+  September 04, 14 11:59:13 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>

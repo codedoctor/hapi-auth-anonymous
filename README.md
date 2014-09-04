@@ -60,6 +60,7 @@ pluginConf = [
     options:
       clientId: '53af466e96ab7635384b71fa'
       _tenantId: '53af466e96ab7635384b71fb'
+      scope: ['user-anonymous-access'] # This is optional and represents the default
   ,
     plugin: hapiMongooseDbConnector
     options:
@@ -91,7 +92,7 @@ the [hapi-routes-tenants-setup](https://github.com/codedoctor/hapi-routes-tenant
 An id that specifies which tenant in the identity store backend should be used. In most scenarios this will be a hardcoded (well, taken from the config) value. It must be a mongodb compatible object id (see example above).
 
 ### scope
-The scope that will be assigned to the credentials upon login. This defaults to ['anonymous-access'] and can be either a string or an array. To assign no scope, pass an empty array.
+The scope that will be assigned to the credentials upon login. This defaults to ['user-anonymous-access'] and can be either a string or an array. To assign no scope, pass an empty array.
 
 The scope allows you to limit access or functionality in your routes. For example, a route that returns data can only return a subset for users in scope anonymous-access
 
