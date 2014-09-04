@@ -6,19 +6,21 @@ internals = {}
 
 module.exports.register = (plugin, options = {}, cb) ->
 
-  options = Hoek.applyToDefaults {clientId: null,_tenantId:null} , options
+  options = Hoek.applyToDefaults {clientId: null,_tenantId:null, scope: ['anonymous-access']} , options
 
   internals.clientId = options.clientId
   internals._tenantId = options._tenantId
 
+  options.scope = [options.scope] if options.scope && _.isString(options.scope)
+  internals.scope = options.scope
+
+  internals.hapiOauthStoreMultiTenant = plugin.plugins['hapi-oauth-store-multi-tenant']
+  internals.hapiUserStoreMultiTenant = plugin.plugins['hapi-user-store-multi-tenant']
+
+
   Hoek.assert(internals.clientId, 'Missing required clientId property in hapi-auth-anonymous configuration');
   Hoek.assert(internals._tenantId, 'Missing required _tenantId property in hapi-auth-anonymous configuration');
-
-  
-  internals.hapiOauthStoreMultiTenant = plugin.plugins['hapi-oauth-store-multi-tenant']
   Hoek.assert internals.hapiOauthStoreMultiTenant,"Could not access oauth store. Make sure 'hapi-oauth-store-multi-tenant' is loaded as a plugin."
-
-  internals.hapiUserStoreMultiTenant = plugin.plugins['hapi-user-store-multi-tenant']
   Hoek.assert internals.hapiUserStoreMultiTenant,"Could not access user store. Make sure 'hapi-oauth-store-multi-tenant' is loaded as a plugin."
 
   internals.oauthAuth = -> internals.hapiOauthStoreMultiTenant?.methods?.oauthAuth
@@ -57,12 +59,12 @@ internals.validateFunc = (secretOrToken, cb) ->
       isAnonymous: true
       name: userResult.username
       user: userResult
+      isClientValid: true
+      scopes: internals.scope
+      scope: internals.scope
       
     cb null, credentials
 
-    # isClientValid: true
-    # scopes: infoResult.scopes
-    # scope: infoResult.scopes
 
 
 internals.bearer = (server, options) ->

@@ -80,6 +80,21 @@ module.exports = server
 
 ```
 
+## Plugin Options
+
+### clientId
+The client id used to identity the oauth app. In a usual setup you create one app when initializing your database for the first time and use that client id. Take a look at 
+the [hapi-routes-tenants-setup](https://github.com/codedoctor/hapi-routes-tenants-setup)
+ plugin that exposes a setup route.
+
+### _tenantId
+An id that specifies which tenant in the identity store backend should be used. In most scenarios this will be a hardcoded (well, taken from the config) value. It must be a mongodb compatible object id (see example above).
+
+### scope
+The scope that will be assigned to the credentials upon login. This defaults to ['anonymous-access'] and can be either a string or an array. To assign no scope, pass an empty array.
+
+The scope allows you to limit access or functionality in your routes. For example, a route that returns data can only return a subset for users in scope anonymous-access
+
 ## See also
 
 * [hapi-auth-bearer-mw](https://github.com/codedoctor/hapi-auth-bearer-mw)
