@@ -22,6 +22,63 @@ HAPI plugin that supports anonymous logins from mobile devices.
 
 The scenario is like this: A user opens an app on a mobile device, and is identified by some persistent UUID. Each request to the backend includes and Authorization: anonymous [UUID] header. The UUID can be any format as long as it is a string. This module now ensures that, either a new user is created in the backend or an existing user with that id is retrieved. Voila, we support anonymous users.
 
+## Dependencies
+
+This module requires the following HAPI modules to be loaded:
+
+* [hapi-oauth-store-multi-tenant](https://github.com/codedoctor/hapi-oauth-store-multi-tenant)
+* [hapi-user-store-multi-tenant](https://github.com/codedoctor/hapi-user-store-multi-tenant)
+
+and a mongoose connector plugin (does not have to be this one)
+
+* [hapi-mongoose-db-connector](https://github.com/codedoctor/hapi-mongoose-db-connector)
+
+
+## How to use it?
+
+```coffeescript
+
+Hapi = require "hapi"
+
+hapiAuthAnonymous = require 'hapi-auth-anonymous'
+hapiOauthStoreMultiTenant = require 'hapi-oauth-store-multi-tenant'
+hapiUserStoreMultiTenant = require 'hapi-user-store-multi-tenant'
+hapiMongooseDbConnector = require 'hapi-mongoose-db-connector'
+      
+server = new Hapi.Server config.server.port, config.server.host, {}
+
+pluginConf = [
+    plugin: hapiUserStoreMultiTenant
+    options:
+      autoIndex: false     
+  ,
+    plugin: hapiOauthStoreMultiTenant
+    options:
+      autoIndex: false     
+  ,
+    plugin: hapiAuthAnonymous
+    options:
+      clientId: config.identityStore.clientId
+      _tenantId: config.identityStore._tenantId
+  ,
+    plugin: hapiMongooseDbConnector
+    options:
+      mongodbUrl: config.services.mongodbUrl
+]
+
+server.pack.register pluginConf, (err) ->
+  throw err if err
+
+  server.auth.strategy 'default', 'hapi-auth-bearer-mw',  {}
+  server.auth.default 'default'
+
+  server.start -> 
+    # Do something
+
+module.exports = server
+
+
+```
 
 ## See also
 
