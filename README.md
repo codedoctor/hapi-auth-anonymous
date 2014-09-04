@@ -20,7 +20,7 @@ HAPI plugin that supports anonymous logins from mobile devices.
 
 ## How does this work?
 
-The scenario is like this: A user opens an app on a mobile device, and is identified by some persistent UUID. Each request to the backend includes and Authorization: anonymous [UUID] header. The UUID can be any format as long as it is a string. This module now ensures that, either a new user is created in the backend or an existing user with that id is retrieved. Voila, we support anonymous users.
+The scenario is like this: A user opens an app on a mobile device, and is identified by some persistent UUID. Each request to the backend includes an Authorization: anonymous [UUID] header. The UUID can be any format as long as it is a string. This module now ensures that, either a new user is created in the backend or an existing user with that id is retrieved. Voila, we support anonymous users.
 
 ## Dependencies
 
@@ -58,8 +58,8 @@ pluginConf = [
   ,
     plugin: hapiAuthAnonymous
     options:
-      clientId: config.identityStore.clientId
-      _tenantId: config.identityStore._tenantId
+      clientId: '53af466e96ab7635384b71fa'
+      _tenantId: '53af466e96ab7635384b71fb'
   ,
     plugin: hapiMongooseDbConnector
     options:
