@@ -46,7 +46,54 @@
 <li><p>ALSO, THIS IS WORK IN PROGRESS</p></li>
 <li><p>THIS IS OBVIOUSLY NOT SECURE AS IN BANK LEVEL SECURITY - IT&#39;S FOR CASUAL APPS ONLY</p></li>
 </ol>
-<h2 id="how-does-this-work-">How does this work?</h2><p>The scenario is like this: A user opens an app on a mobile device, and is identified by some persistent UUID. Each request to the backend includes and Authorization: anonymous [UUID] header. The UUID can be any format as long as it is a string. This module now ensures that, either a new user is created in the backend or an existing user with that id is retrieved. Voila, we support anonymous users.</p><h2 id="see-also">See also</h2>
+<h2 id="how-does-this-work-">How does this work?</h2><p>The scenario is like this: A user opens an app on a mobile device, and is identified by some persistent UUID. Each request to the backend includes an Authorization: anonymous [UUID] header. The UUID can be any format as long as it is a string. This module now ensures that, either a new user is created in the backend or an existing user with that id is retrieved. Voila, we support anonymous users.</p><h2 id="dependencies">Dependencies</h2><p>This module requires the following HAPI modules to be loaded:</p><ul>
+<li><a href="https://github.com/codedoctor/hapi-oauth-store-multi-tenant">hapi-oauth-store-multi-tenant</a></li>
+<li><a href="https://github.com/codedoctor/hapi-user-store-multi-tenant">hapi-user-store-multi-tenant</a></li>
+</ul><p>and a mongoose connector plugin (does not have to be this one)</p><ul>
+<li><a href="https://github.com/codedoctor/hapi-mongoose-db-connector">hapi-mongoose-db-connector</a></li>
+</ul>
+<h2 id="how-to-use-it-">How to use it?</h2>
+<pre><code class="lang-coffeescript">
+Hapi = require &quot;hapi&quot;
+
+hapiAuthAnonymous = require &#39;hapi-auth-anonymous&#39;
+hapiOauthStoreMultiTenant = require &#39;hapi-oauth-store-multi-tenant&#39;
+hapiUserStoreMultiTenant = require &#39;hapi-user-store-multi-tenant&#39;
+hapiMongooseDbConnector = require &#39;hapi-mongoose-db-connector&#39;
+
+server = new Hapi.Server config.server.port, config.server.host, {}
+
+pluginConf = [
+    plugin: hapiUserStoreMultiTenant
+    options:
+      autoIndex: false     
+  ,
+    plugin: hapiOauthStoreMultiTenant
+    options:
+      autoIndex: false     
+  ,
+    plugin: hapiAuthAnonymous
+    options:
+      clientId: &#39;53af466e96ab7635384b71fa&#39;
+      _tenantId: &#39;53af466e96ab7635384b71fb&#39;
+  ,
+    plugin: hapiMongooseDbConnector
+    options:
+      mongodbUrl: config.services.mongodbUrl
+]
+
+server.pack.register pluginConf, (err) -&gt;
+  throw err if err
+
+  server.auth.strategy &#39;default&#39;, &#39;hapi-auth-anonymous&#39;,  {}
+  server.auth.default &#39;default&#39;
+
+  server.start -&gt; 
+    # Do something
+
+module.exports = server
+</code></pre>
+<h2 id="see-also">See also</h2>
 <ul>
 <li><a href="https://github.com/codedoctor/hapi-auth-bearer-mw">hapi-auth-bearer-mw</a></li>
 <li><a href="https://github.com/codedoctor/hapi-auth-anonymous">hapi-auth-anonymous</a></li>
@@ -58,6 +105,7 @@
 <li><a href="https://github.com/codedoctor/hapi-routes-oauth-management">hapi-routes-oauth-management</a></li>
 <li><a href="https://github.com/codedoctor/hapi-routes-roles">hapi-routes-roles</a></li>
 <li><a href="https://github.com/codedoctor/hapi-routes-status">hapi-routes-status</a></li>
+<li><a href="https://github.com/codedoctor/hapi-routes-tenants-setup">hapi-routes-tenants-setup</a></li>
 <li><a href="https://github.com/codedoctor/hapi-routes-users-authorizations">hapi-routes-users-authorizations</a></li>
 <li><a href="https://github.com/codedoctor/hapi-routes-users">hapi-routes-users</a></li>
 <li><a href="https://github.com/codedoctor/hapi-user-store-multi-tenant">hapi-user-store-multi-tenant</a></li>
@@ -81,7 +129,7 @@
       </div>
     </div>
     <div id='footer'>
-  September 04, 14 08:26:02 by
+  September 04, 14 09:48:30 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>

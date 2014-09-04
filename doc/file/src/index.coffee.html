@@ -89,15 +89,6 @@
       </a>
     </span>
     <span class='desc'>
-      <p>if (!info) { return cb(null, null); }
-info.isValid = !!(info.actor &amp;&amp; info.actor.actorId &amp;&amp; info.expiresIn);
-if (info.isValid) { user = {
-    isServerToken: false,
-    isActsAsActorId: false,
-    username: info.actor.actorId,
-    userId: info.actor.actorId,
-    scopes: [] }; _.extend(user, info); user.scopes.push(&#39;user&#39;); return cb(null, user);
-} else { return cb(null, null);</p>
     </span>
   </li>
 </ul>
@@ -128,25 +119,12 @@ if (info.isValid) { user = {
 <b>internals</b><span>(server, options)</span>
       <br>
     </p>
-    <div class='docstring'>
-  <p>if (!info) { return cb(null, null);
-}
-info.isValid = !!(info.actor &amp;&amp; info.actor.actorId &amp;&amp; info.expiresIn);
-if (info.isValid) { user = {
-    isServerToken: false,
-    isActsAsActorId: false,
-    username: info.actor.actorId,
-    userId: info.actor.actorId,
-    scopes: [] }; _.extend(user, info); user.scopes.push(&#39;user&#39;); return cb(null, user);
-} else { return cb(null, null);</p>
-</div>
-<div class='tags'>
-</div>
+    
   </div>
 </div>
     </div>
     <div id='footer'>
-  September 04, 14 08:26:02 by
+  September 04, 14 09:48:30 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>

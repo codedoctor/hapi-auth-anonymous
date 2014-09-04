@@ -39,7 +39,7 @@
     "hapi-oauth-store-multi-tenant": "1.0.x",
     "matchdep": "0.3.0",
     "mocha": "1.21.4",
-    "mongoose": "3.8.14",
+    "mongoose": "3.8.15",
     "should": "4.0.4"
   },
   "config": {

@@ -34,65 +34,48 @@ module.exports.register.attributes =
     pkg: require '../package.json'
 
 internals.validateFunc = (secretOrToken, cb) ->
+  dummyProfile =
+    id : secretOrToken
 
-  internals.oauthAuth().validate secretOrToken,internals.clientId, {}, (err,infoResult) ->
+  internals.users().getOrCreateUserFromProvider internals._tenantId, 'hapi-auth-anonymous',secretOrToken,null,dummyProfile,{}, (err,userResult) ->
+    console.log "DDDDDD #{err}"
     return cb err if err
+    console.log "USER: #{JSON.stringify(userResult)}"
+
+    ###
     return cb null, null unless infoResult and infoResult.isValid # No token found, not authorized, check
 
     Hoek.assert infoResult.actor,"No actor present in token result"
     Hoek.assert infoResult.actor.actorId,"No actor id present in token result"
+    ###
+
 
     credentials = 
-      id: infoResult.actor.actorId
-      clientId: infoResult.clientId
-      isValid: !!infoResult.isValid
-      isClientValid: !!infoResult.isClientValid
-      scopes: infoResult.scopes
-      scope: infoResult.scopes
-      expiresIn: infoResult.expiresIn
-      token: secretOrToken #Important
+      id: userResult._id
+      clientId: internals.clientId
+      isValid: true
+      isAnonymous: true
+      name: userResult.username
+      user: userResult
+      
+    cb null, credentials
 
-    internals.users().get credentials.id,{}, (err,user) ->
-      return cb err if err
-
-      credentials.name = user.username
-      credentials.user = user
-
-      cb null, credentials
-    #console.log JSON.stringify(infoResult)
-
-    ###
-                if (!info) {
-                return cb(null, null);
-              }
-              info.isValid = !!(info.actor && info.actor.actorId && info.expiresIn);
-              if (info.isValid) {
-                user = {
-                  isServerToken: false,
-                  isActsAsActorId: false,
-                  username: info.actor.actorId,
-                  userId: info.actor.actorId,
-                  scopes: []
-                };
-                _.extend(user, info);
-                user.scopes.push('user');
-                return cb(null, user);
-              } else {
-                return cb(null, null);
-
-    ###
-
+    # isClientValid: true
+    # scopes: infoResult.scopes
+    # scope: infoResult.scopes
 
 
 internals.bearer = (server, options) ->
   scheme =
     authenticate: (request, reply) ->
       req = request.raw.req
-      
+
+
       accessToken = request.query['anonymous_token']
 
       unless accessToken
         authorization = req.headers.authorization
+
         return reply(boom.unauthorized(null, "Anonymous"))  unless authorization
         
         parts = authorization.split(/\s+/)
@@ -108,14 +91,14 @@ internals.bearer = (server, options) ->
               log:
                 tags: [
                   "auth"
-                  "bearer-auth"
+                  "anonynous-auth"
                 ]
                 data: err
             )
-          if not credentials or (token and (not credentials.token or credentials.token isnt token))
-            return reply(boom.unauthorized("Invalid token", "Bearer"),
-              credentials: credentials
-            )
+
+          unless credentials
+            return reply(boom.unauthorized("Invalid token", "Anonymous"), {credentials: credentials} )
+
           reply null,
             credentials: credentials
 

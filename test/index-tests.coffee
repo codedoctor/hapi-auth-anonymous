@@ -21,5 +21,4 @@ describe 'WHEN index has been loaded', ->
       should.exist server
       server.should.have.property "pack"
       
-
       cb null

@@ -20,7 +20,7 @@ describe 'WHEN index has been loaded', ->
           method: "POST"
           url: "/test"
           headers: 
-            "Authentication" : "anonymous a"
+            "Authorization" : "anonymous a"
 
         server.inject options, (response) ->
           response.statusCode.should.equal 200    
@@ -36,12 +36,14 @@ describe 'WHEN index has been loaded', ->
           method: "POST"
           url: "/test"
           headers: 
-            "Authentication" : "anonymous b"
+            "Authorization" : "anonymous b"
 
         server.inject options, (response) ->
           response.statusCode.should.equal 200    
           should.exist response.result
           console.log JSON.stringify(response.result)
+
+          cb null
 
     describe 'authenticating without a user', ->
       it 'should not be authenticated', (cb) ->
