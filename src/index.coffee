@@ -40,18 +40,8 @@ internals.validateFunc = (secretOrToken, cb) ->
     id : secretOrToken
 
   internals.users().getOrCreateUserFromProvider internals._tenantId, 'hapi-auth-anonymous',secretOrToken,null,dummyProfile,{}, (err,userResult) ->
-    console.log "DDDDDD #{err}"
     return cb err if err
-    console.log "USER: #{JSON.stringify(userResult)}"
-
-    ###
-    return cb null, null unless infoResult and infoResult.isValid # No token found, not authorized, check
-
-    Hoek.assert infoResult.actor,"No actor present in token result"
-    Hoek.assert infoResult.actor.actorId,"No actor id present in token result"
-    ###
-
-
+    
     credentials = 
       id: userResult._id || userResult.id
       clientId: internals.clientId
@@ -64,7 +54,6 @@ internals.validateFunc = (secretOrToken, cb) ->
       scope: internals.scope
       
     cb null, credentials
-
 
 
 internals.bearer = (server, options) ->
