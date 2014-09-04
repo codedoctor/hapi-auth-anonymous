@@ -21,4 +21,15 @@ module.exports = loadServer = (cb) ->
     ]
 
     server.pack.register pluginConf, (err) ->
+      return cb err if err
+      server.auth.strategy 'default', 'hapi-auth-anonymous',  {}
+      server.auth.default 'default'
+
+      server.route
+        path: "/test"
+        method: "POST"
+        handler: (request, reply) ->
+          reply request.auth?.credentials
+
+
       cb err,server

@@ -46,7 +46,7 @@
 <li><p>ALSO, THIS IS WORK IN PROGRESS</p></li>
 <li><p>THIS IS OBVIOUSLY NOT SECURE AS IN BANK LEVEL SECURITY - IT&#39;S FOR CASUAL APPS ONLY</p></li>
 </ol>
-<h2 id="how-does-this-work-">How does this work?</h2><p>The scenario is like this: A user opens an app on a mobile device, and is identified by some persistent UUID. Each request to the backend includes and Authorization: anonymous [UUID] header. The UUID must be in the 24 hex format used by mongodb. This module now ensures that, either a new user is created in the backend or an existing user with that id is retrieved. Voila, we support anonymous users.</p><h2 id="see-also">See also</h2>
+<h2 id="how-does-this-work-">How does this work?</h2><p>The scenario is like this: A user opens an app on a mobile device, and is identified by some persistent UUID. Each request to the backend includes and Authorization: anonymous [UUID] header. The UUID can be any format as long as it is a string. This module now ensures that, either a new user is created in the backend or an existing user with that id is retrieved. Voila, we support anonymous users.</p><h2 id="see-also">See also</h2>
 <ul>
 <li><a href="https://github.com/codedoctor/hapi-auth-bearer-mw">hapi-auth-bearer-mw</a></li>
 <li><a href="https://github.com/codedoctor/hapi-auth-anonymous">hapi-auth-anonymous</a></li>
@@ -81,7 +81,7 @@
       </div>
     </div>
     <div id='footer'>
-  September 03, 14 21:47:03 by
+  September 04, 14 08:26:02 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>

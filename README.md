@@ -20,7 +20,7 @@ HAPI plugin that supports anonymous logins from mobile devices.
 
 ## How does this work?
 
-The scenario is like this: A user opens an app on a mobile device, and is identified by some persistent UUID. Each request to the backend includes and Authorization: anonymous [UUID] header. The UUID must be in the 24 hex format used by mongodb. This module now ensures that, either a new user is created in the backend or an existing user with that id is retrieved. Voila, we support anonymous users.
+The scenario is like this: A user opens an app on a mobile device, and is identified by some persistent UUID. Each request to the backend includes and Authorization: anonymous [UUID] header. The UUID can be any format as long as it is a string. This module now ensures that, either a new user is created in the backend or an existing user with that id is retrieved. Voila, we support anonymous users.
 
 
 ## See also
