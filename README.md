@@ -69,7 +69,7 @@ pluginConf = [
 server.pack.register pluginConf, (err) ->
   throw err if err
 
-  server.auth.strategy 'default', 'hapi-auth-bearer-mw',  {}
+  server.auth.strategy 'default', 'hapi-auth-anonymous',  {}
   server.auth.default 'default'
 
   server.start -> 
