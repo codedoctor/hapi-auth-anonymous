@@ -25,7 +25,6 @@ describe 'WHEN index has been loaded', ->
         server.inject options, (response) ->
           response.statusCode.should.equal 200    
           should.exist response.result
-          console.log JSON.stringify(response.result)
 
           cb null
 
@@ -41,9 +40,18 @@ describe 'WHEN index has been loaded', ->
         server.inject options, (response) ->
           response.statusCode.should.equal 200    
           should.exist response.result
-          console.log JSON.stringify(response.result)
 
-          cb null
+          should.exist response.result.id
+          firstId = response.result.id.toString()
+
+          server.inject options, (response) ->
+            response.statusCode.should.equal 200    
+            should.exist response.result
+            #console.log JSON.stringify(response.result)
+
+            firstId.should.equal response.result.id.toString()
+
+            cb null
 
     describe 'authenticating without a user', ->
       it 'should not be authenticated', (cb) ->

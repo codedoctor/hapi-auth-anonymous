@@ -51,7 +51,7 @@ internals.validateFunc = (secretOrToken, cb) ->
 
 
     credentials = 
-      id: userResult._id
+      id: userResult._id || userResult.id
       clientId: internals.clientId
       isValid: true
       isAnonymous: true
