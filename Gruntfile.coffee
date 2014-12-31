@@ -39,6 +39,9 @@ module.exports = (grunt) ->
       src: ['src/**/*.coffee']
 
 
+    release:
+      options: {}
+
     mochaTest:
       test:
         options:

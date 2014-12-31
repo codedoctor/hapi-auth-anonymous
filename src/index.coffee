@@ -4,7 +4,7 @@ boom = require 'boom'
 
 internals = {}
 
-module.exports.register = (plugin, options = {}, cb) ->
+module.exports.register = (server, options = {}, cb) ->
 
   options = Hoek.applyToDefaults {clientId: null,_tenantId:null, scope: ['user-anonymous-access']} , options
 
@@ -14,8 +14,11 @@ module.exports.register = (plugin, options = {}, cb) ->
   options.scope = [options.scope] if options.scope && _.isString(options.scope)
   internals.scope = options.scope
 
-  internals.hapiOauthStoreMultiTenant = plugin.plugins['hapi-oauth-store-multi-tenant']
-  internals.hapiUserStoreMultiTenant = plugin.plugins['hapi-user-store-multi-tenant']
+  internals.roles = []
+  internals.roles = options.roles if _.isArray(options.roles)
+
+  internals.hapiOauthStoreMultiTenant = server.plugins['hapi-oauth-store-multi-tenant']
+  internals.hapiUserStoreMultiTenant = server.plugins['hapi-user-store-multi-tenant']
 
 
   Hoek.assert(internals.clientId, 'Missing required clientId property in hapi-auth-anonymous configuration');
@@ -29,7 +32,7 @@ module.exports.register = (plugin, options = {}, cb) ->
   Hoek.assert _.isFunction internals.oauthAuth, "No oauth auth accessible."
   Hoek.assert _.isFunction internals.users, "No users accessible."
 
-  plugin.auth.scheme 'hapi-auth-anonymous', internals.bearer
+  server.auth.scheme 'hapi-auth-anonymous', internals.bearer
   cb()
 
 module.exports.register.attributes =
@@ -39,11 +42,17 @@ internals.validateFunc = (secretOrToken, cb) ->
   dummyProfile =
     id : secretOrToken
 
-  internals.users().getOrCreateUserFromProvider internals._tenantId, 'hapi-auth-anonymous',secretOrToken,null,dummyProfile,{}, (err,userResult) ->
+  createOptions =
+    roles: internals.roles
+
+  internals.users().getOrCreateUserFromProvider internals._tenantId, 'hapi-auth-anonymous',secretOrToken,null,dummyProfile,createOptions, (err,userResult) ->
     return cb err if err
     
+    userResult = userResult.toObject() if _.isFunction(userResult.toObject)
+    userResult._id = userResult._id.toString()
+
     credentials = 
-      id: userResult._id || userResult.id
+      id: userResult._id
       clientId: internals.clientId
       isValid: true
       isAnonymous: true
@@ -52,6 +61,7 @@ internals.validateFunc = (secretOrToken, cb) ->
       isClientValid: true
       scopes: internals.scope
       scope: internals.scope
+      roles: userResult.roles || []
       
     cb null, credentials
 
@@ -90,8 +100,7 @@ internals.bearer = (server, options) ->
           unless credentials
             return reply(boom.unauthorized("Invalid token", "Anonymous"), {credentials: credentials} )
 
-          reply null,
-            credentials: credentials
+          reply.continue { credentials: credentials }
 
 
       internals.validateFunc accessToken, createCallback(accessToken)

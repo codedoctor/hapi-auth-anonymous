@@ -19,6 +19,5 @@ describe 'WHEN index has been loaded', ->
       return cb err if err
 
       should.exist server
-      server.should.have.property "pack"
       
       cb null

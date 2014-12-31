@@ -1,6 +1,6 @@
 {
   "name": "hapi-auth-anonymous",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "private": false,
   "main": "lib/index.js",
   "repository": {
@@ -12,12 +12,12 @@
   },
   "description": "Plugin that supports bearer token security using our idenity store.",
   "dependencies": {
-    "hoek": ">=2.10.0",
-    "boom": ">=2.6.1",
-    "underscore": ">=1.7.0"
+    "hoek": "2.10.0",
+    "boom": "2.6.1",
+    "underscore": "1.7.0"
   },
   "peerDependencies": {
-    "hapi": ">=6.5.0 <8"
+    "hapi": ">=8.0.0"
   },
   "devDependencies": {
     "async": "0.9.0",
@@ -34,13 +34,13 @@
     "grunt-mocha-test": "0.12.4",
     "grunt-release": "0.9.0",
     "grunt-shell": "1.1.1",
-    "hapi": "7.5.2",
-    "hapi-user-store-multi-tenant": "1.1.1",
-    "hapi-oauth-store-multi-tenant": "1.2.x",
+    "hapi": "8.0.0",
+    "hapi-user-store-multi-tenant": "2.0.1",
+    "hapi-oauth-store-multi-tenant": "2.0.1",
     "matchdep": "0.3.0",
-    "mocha": "2.0.1",
-    "mongoose": "3.8.20",
-    "should": "4.4.1"
+    "mocha": "2.1.0",
+    "mongoose": "3.8.21",
+    "should": "4.4.2"
   },
   "config": {
     "blanket": {

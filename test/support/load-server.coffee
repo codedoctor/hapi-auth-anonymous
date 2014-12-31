@@ -12,21 +12,25 @@ testUrl = 'mongodb://localhost/looksnearme-test'
 
 
 module.exports = loadServer = (cb) ->
-    server = new Hapi.Server 5675,"localhost",{}
+    server = new Hapi.Server()
+    server.connection
+      port: 5675
+      host: "localhost"
 
     pluginConf = [
-        plugin: hapiUserStoreMultiTenant
+        register: hapiUserStoreMultiTenant
       ,
-        plugin: hapiOauthStoreMultiTenant
+        register: hapiOauthStoreMultiTenant
       ,
-        plugin: index
+        register: index
         options: 
           clientId: "53af466e96ab7635384b71fa"
           _tenantId: "53af466e96ab7635384b71fb"
+          roles: ['rolea','roleb','rolec']
 
     ]
 
-    server.pack.register pluginConf, (err) ->
+    server.register pluginConf, (err) ->
       return cb err if err
       server.auth.strategy 'default', 'hapi-auth-anonymous',  {}
       server.auth.default 'default'
@@ -46,10 +50,10 @@ module.exports = loadServer = (cb) ->
           cb err, server
 
           ###
-          plugin = server.pack.plugins['hapi-user-store-multi-tenant']
+          plugin = server.plugins['hapi-user-store-multi-tenant']
           plugin.rebuildIndexes (err) ->
 
-            plugin = server.pack.plugins['hapi-oauth-store-multi-tenant']
+            plugin = server.plugins['hapi-oauth-store-multi-tenant']
             plugin.rebuildIndexes (err) ->
               cb err,server
           ###
