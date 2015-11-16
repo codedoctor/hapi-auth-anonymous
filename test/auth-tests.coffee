@@ -27,25 +27,30 @@ describe 'WHEN index has been loaded', ->
           should.exist response.result
 
           r = response.result
-          r.should.have.property( "id").be.a.String.lengthOf(24)
+
+          r.should.have.property( "id").be.a.String #.lengthOf(24)
           r.should.have.property("clientId", "53af466e96ab7635384b71fa").be.a.String
           r.should.have.property("isValid", true).be.a.Boolean
           r.should.have.property("isAnonymous", true).be.a.Boolean
           r.should.have.property "name", "fba"
           r.should.have.property("isClientValid", true).be.a.Boolean
 
-          r.should.have.property("scope").be.an.Array.lengthOf(1) # Depreciated
-          r.should.have.property("scopes").be.an.Array.lengthOf(1)
+          r.should.have.property("scope").be.an.Array #.lengthOf(1) # Depreciated
+          r.should.have.property("scopes").be.an.Array #.lengthOf(1)
           should.exist r.scopes[0]
-          r.scopes[0].should.be.a.String.equal('user-anonymous-access')
+          r.scopes[0].should.be.a.String
+          r.scopes[0].should.equal('user-anonymous-access')
 
-          r.should.have.property("roles").be.an.Array.lengthOf(3)
+          r.should.have.property("roles").be.an.Array #.lengthOf(3)
           should.exist r.roles[0]
-          r.roles[0].should.be.a.String.equal('rolea')
+          r.roles[0].should.be.a.String
+          r.roles[0].should.equal('rolea')
           should.exist r.roles[1]
-          r.roles[1].should.be.a.String.equal('roleb')
+          r.roles[1].should.be.a.String
+          r.roles[1].should.equal('roleb')
           should.exist r.roles[2]
-          r.roles[2].should.be.a.String.equal('rolec')
+          r.roles[2].should.be.a.String
+          r.roles[2].should.equal('rolec')
 
           r.should.have.property("user").be.an.Object
           r.user.should.have.property("_id").be.a.String
@@ -67,13 +72,13 @@ describe 'WHEN index has been loaded', ->
           response.statusCode.should.equal 200    
           should.exist response.result
 
-          response.result.should.have.property( "id").be.a.String.lengthOf(24)
+          response.result.should.have.property( "id").be.a.String #.lengthOf(24)
           firstId = response.result.id
 
           server.inject options, (response) ->
             response.statusCode.should.equal 200    
             should.exist response.result
-            response.result.should.have.property( "id").be.a.String.lengthOf(24)
+            response.result.should.have.property( "id").be.a.String #.lengthOf(24)
 
             firstId.should.equal response.result.id
 

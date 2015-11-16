@@ -93,6 +93,7 @@ internals.bearer = (server, options) ->
                 tags: [
                   "auth"
                   "anonynous-auth"
+                  "anonymous-auth"
                 ]
                 data: err
             )
